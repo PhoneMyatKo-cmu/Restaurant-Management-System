@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form with Multiple Menu Selection and Quantities</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 30px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-top: 20px;
+            display: block;
+            color: #555;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            color: #333;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        select:focus,
+        input[type="number"]:focus {
+            border-color: #007bff;
+            background-color: #fff;
+            outline: none;
+            box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .menu-item {
+            margin-bottom: 25px;
+        }
+
+        .menu-item label {
+            margin-bottom: 10px;
+            display: block;
+            font-size: 15px;
+            color: #333;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-item input[type="number"] {
+            width: 80px;
+        }
+
+        .menu-item label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        /* Additional hover effects for fields */
+        select:hover,
+        input[type="number"]:hover {
+            background-color: #e2e6ea;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'view_orders' %}">Order List</a></li>
+                <li><a href="{% url 'view_tables' %}">Table List</a></li>
+                <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
+                <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
+                <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <h1>Edit Your Order</h1>
+        <form id="orderForm" action="{% url 'edit_order' order_id %}" method="post">
+            {% csrf_token %}
+
+            <!-- Table Selection -->
+            <label for="table">Edit Table No:</label>
+            <select id="table" name="table_id" required>
+                <option value="">Select Table</option>
+                {% for t in tables %}
+                {% if table_id == t.0 %}
+                <option value="{{ t.0 }}" selected>Table ID: {{ t.0 }}</option>
+                {% else %}
+                <option value="{{ t.0 }}">Table ID: {{ t.0 }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+            <!-- Waiter Selection -->
+            <label for="waiter">Choose Waiter:</label>
+            <select id="waiter" name="server_id" required>
+                <option value="">Select Waiter</option>
+                {% for s in servers %}
+                {% if server_id == s.0 %}
+                <option value="{{ s.0 }}" selected>{{ s.1 }}</option>
+                {% else %}
+                <option value="{{ s.0 }}">{{ s.1 }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+            <!-- Kitchen Staff Selection -->
+            <label for="kitchen_staff">Choose Kitchen Staff:</label>
+            <select id="kitchen_staff" name="kitchen_staff_id" required>
+                <option value="">Select Kitchen Staff</option>
+                {% for k in kcs %}
+                {% if kc_id == k.0 %}
+                <option value="{{ k.0 }}" selected>{{ k.1 }}</option>
+                {% else %}
+                <option value="{{ k.0 }}">{{ k.1 }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+            <!-- Multiple Menu Item Selection with Quantity -->
+            <label for="menu_items">Edit Menu Items Quantity:</label>
+            <div id="menu-items">
+                {% for o in order %}
+                <div class="menu-item">
+                    <label for="quantity_{{ o.6 }}">Quantity for {{ o.5 }}:</label>
+                    <input type="number" id="quantity_{{ o.6 }}" name="quantities_{{ o.6 }}" min="1" max="10"
+                        value="{{ o.8 }}" required>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Order Type Selection -->
+            <label for="order_type">Choose Order Type:</label>
+            <select id="order_type" name="order_type" required>
+                <option value="">Select Order Type</option>
+                {% for o in order_type %}
+                {% if selected_ot == o %}
+                <option value="{{ o }}" selected>{{ o }}</option>
+                {% else %}
+                <option value="{{ o }}">{{ o }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+            <!-- Submit Button -->
+            <button type="submit">Edit Order</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

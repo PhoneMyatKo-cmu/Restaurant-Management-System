@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Inventory</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'view_orders' %}">Order List</a></li>
+                <li><a href="{% url 'view_tables' %}">Table List</a></li>
+                <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
+                <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
+                <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2>Add New Ingredient</h2>
+    <form action="{% url 'create_inventory' %}" method="POST">
+        <!-- Adjust the action URL as needed -->
+        {% csrf_token %}
+        <label for="ingredient_id">Ingredient Name:</label>
+        <input type="text" name="ingredient_name" id="">
+
+        <label for="unit_price">Unit Price:</label>
+        <input type="text" id="price" name="unit_price" required>
+
+        <label for="quantity"> Quantity:</label>
+        <input type="text" id="quantity" name="quantity" required>
+
+        <label for="p_date"> Purchased At:</label>
+        <input type="date" id="p_date" name="p_date" required>
+
+        <label for="e_date"> Expired At:</label>
+        <input type="date" id="e_date" name="e_date" required>
+
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+
+</html>

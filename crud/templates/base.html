@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Restaurant Management{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Add any other CSS or JS as needed -->
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'view_orders' %}">Order List</a></li>
+                <li><a href="{% url 'view_table' %}">Table List</a></li>
+                <li><a href="{% url 'view_menu' %}">Menu List</a></li>
+                <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
+                <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- This is where the content of child templates will be rendered -->
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Restaurant Management System</p>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Order Form</title>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        select,
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'view_orders' %}">Order List</a></li>
+                <li><a href="{% url 'view_tables' %}">Table List</a></li>
+                <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
+                <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
+                <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Make an Order</h1>
+        <form id="orderForm" action="{% url 'create_order' %}" method="post">
+            {% csrf_token %}
+            <!-- Order Type Selection -->
+            <label for="order_type">Choose Order Type:</label>
+            <select id="order_type" name="order_type" required>
+                <option value="">Select Order Type</option>
+                {% for o in order_type %}
+                <option value="{{ o }}">{{ o }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Table Selection -->
+            <label for="table">Choose Table:</label>
+            <select id="table" name="table_id" required>
+                <option value="">Select Table</option>
+                <option value="null">None</option>
+                {% for t in tables %}
+                <option value="{{ t.0 }}">Table ID:{{ t.0 }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Waiter Selection -->
+            <label for="waiter">Choose Waiter:</label>
+            <select id="waiter" name="server_id" required>
+                <option value="">Select Waiter</option>
+                {% for s in servers %}
+                <option value="{{ s.0 }}">{{ s.1 }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Kitchen Staff Selection -->
+            <label for="kitchen_staff">Choose Kitchen Staff:</label>
+            <select id="kitchen_staff" name="kitchen_staff_id" required>
+                <option value="">Select Kitchen Staff</option>
+                {% for k in kcs %}
+                <option value="{{ k.0 }}">{{ k.1 }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Menu Item Selection with Quantities -->
+            <label for="menu_items">Choose Menu Items:</label>
+            <select id="menu_items" name="menu_items[]" class="menu-select" multiple="multiple" required>
+                {% for m in menus %}
+                <option data-name="{{ m.1 }}" value="{{ m.0 }}">{{ m.1 }}</option>
+                {% endfor %}
+            </select>
+
+            <div id="selected-menu-items"></div>
+
+            <script>
+                $(document).ready(function () {
+                    // Initialize the Select2 dropdown
+                    $('#menu_items').select2({
+                        placeholder: 'Select Menu Items',
+                        allowClear: true
+                    });
+
+                    // Handle menu selection changes
+                    $('#menu_items').on('change', function () {
+                        const selectedItems = $(this).val();
+                        $('#selected-menu-items').empty();
+
+                        // Loop through selected items
+                        selectedItems.forEach(function (itemId) {
+                            // Get the selected option's text (menu name) and ID
+                            const menuName = $(`#menu_items option[value="${itemId}"]`).data('name');
+
+                            // Append a quantity input for each selected item, showing the menu name
+                            $('#selected-menu-items').append(`
+                                <div class="menu-item">
+                                    <label for="quantity_${itemId}">Quantity for ${menuName}:</label>
+                                    <input type="number" id="quantity_${itemId}" name="quantities_${itemId}" min="1" max="10" required>
+                                </div>
+                            `);
+                        });
+                    });
+
+                    // Order type logic to disable/enable table selection
+                    $('#order_type').on('change', function () {
+                        const orderType = $(this).val();
+                        if (orderType === 'take_out') {
+                            // Set table dropdown to "None" and disable it
+                            $('#table').val('null').prop('disabled', true);
+                        } else {
+                            // Enable the table dropdown
+                            $('#table').prop('disabled', false);
+                        }
+                    });
+                });
+            </script>
+
+            <!-- Submit Button -->
+            <input type="submit" name="Order" value="Submit Order">
+        </form>
+    </div>
+
+</body>
+
+</html>

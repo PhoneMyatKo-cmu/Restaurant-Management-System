@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Menu Item</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'view_orders' %}">Order List</a></li>
+                <li><a href="{% url 'view_tables' %}">Table List</a></li>
+                <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
+                <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
+                <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h2>Edit Table</h2>
+    <form action="{% url 'edit_menu_item' menu.0 %}" method="POST">
+        <!-- Adjust the action URL as needed -->
+        {% csrf_token %}
+        <label for="table_id">Menu ID:</label>
+        <input type="text" id="menu_id" name="menu_id" required disabled value="{{ menu.0 }}">
+
+        <label for="Menu Name">Menu Name:</label>
+        <input type="text" id="menu_name" name="menu_name" required value="{{ menu.2 }}">
+
+        <label for="Price">Price:</label>
+        <input type="text" id="price" name="price" required value="{{ menu.3 }}">
+
+        <input type="text" id="menu_item_id" name="menu_item_id" required value="{{ menu.1 }}" style="display: none;">
+
+        <input type="submit" value="Submit">
+    </form>
+
+</body>
+
+</html>

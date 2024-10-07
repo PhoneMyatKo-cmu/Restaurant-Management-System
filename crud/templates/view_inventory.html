@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 10%;
+        }
+
+        .btn {
+            margin-left: auto;
+        }
+
+        .addbtn {
+            background-color: #2980b9;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        .addbtn:hover {
+            background-color: #216a9d;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin: 20px 10%;
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-form input[type="text"]:focus {
+            border-color: #2980b9;
+        }
+
+        .search-form input[type="submit"] {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #2980b9;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-form input[type="submit"]:hover {
+            background-color: #216a9d;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        table th,
+        table td {
+            padding: 12px 20px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #2c3e50;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        table td button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #27ae60;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        table td button:hover {
+            background-color: #219150;
+        }
+
+        table td button a {
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'view_orders' %}">Order List</a></li>
+                <li><a href="{% url 'view_tables' %}">Table List</a></li>
+                <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
+                <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
+                <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1>Inventory List</h1>
+
+    <div class="header-container">
+        <div class="search-form">
+            <form action="#" method="get">
+                {% csrf_token %}
+                <input type="text" name="first_name" placeholder="Search by ingredient name">
+                <input type="submit" value="Search">
+            </form>
+        </div>
+        <button class="addbtn">
+            <a href="{% url 'create_inventory' %}" style="color: #fff; text-decoration: none;">Add New Ingredient</a>
+        </button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ingredient ID</th>
+                <th>Ingredient Name</th>
+                <th>Unit Price</th>
+                <th>Purchased Date</th>
+                <th>Expired Date</th>
+                <th>Quantity</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in inventories %}
+            <tr>
+                <td>{{ i.0 }}</td>
+                <td>{{ i.1 }}</td>
+                <td>{{ i.2 }}</td>
+                <td>{{ i.3 }}</td>
+                <td>{{ i.4 }}</td>
+                <td>{{ i.5 }}</td>
+                <td><button><a href="{% url 'edit_inventory' i.0 %}">Edit</a></button></td>
+                <td><button><a href="{% url 'delete_inventory' i.0 %}">Delete</a></button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+
+</html>
