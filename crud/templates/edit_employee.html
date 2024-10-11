@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0px;
         }
 
         form {
@@ -46,6 +46,20 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+
+        }
+
+        h2 {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -53,40 +67,45 @@
     <header>
         <nav>
             <ul>
+                <li style="font-size: xx-large"><a>{{ restaurant_name }}</a></li>
                 <li><a href="{% url 'view_orders' %}">Order List</a></li>
                 <li><a href="{% url 'view_tables' %}">Table List</a></li>
                 <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
                 <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
                 <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+                <li><a href="{% url 'reports' %}">Menu Sales Reports</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
             </ul>
         </nav>
     </header>
 
-    <h2>Edit Employee</h2>
-    <form action="{% url 'edit_employee' emp.0 %}" method="POST">
-        <!-- Adjust the action URL as needed -->
-        {% csrf_token %}
-        <label for="employee_id">Employee ID:</label>
-        <input type="text" id="employee_id" name="employee_id" required disabled value="{{ emp.0 }}">
+    <div class="container">
+        <h2>Edit Employee</h2>
+        <form action="{% url 'edit_employee' emp.0 %}" method="POST">
+            <!-- Adjust the action URL as needed -->
+            {% csrf_token %}
+            <label for="employee_id">Employee ID:</label>
+            <input type="text" id="employee_id" name="employee_id" required disabled value="{{ emp.0 }}">
 
-        <label for="emp_name">Employee Name:</label>
-        <input type="text" id="emp_name" name="employee_name" required value="{{ emp.2 }}">
+            <label for="emp_name">Employee Name:</label>
+            <input type="text" id="emp_name" name="employee_name" required value="{{ emp.2 }}">
 
-        <label for="salary">Salary:</label>
-        <input type="text" id="salary" name="salary" required value="{{ emp.3 }}">
+            <label for="salary">Salary:</label>
+            <input type="text" id="salary" name="salary" required value="{{ emp.3 }}">
 
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required value="{{ emp.4 }}">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required value="{{ emp.4 }}">
 
-        <label for="pw">Password:</label>
-        <input type="text" id="pw" name="password" required value=>
+{#            <label for="pw">Password:</label>#}
+{#            <input type="text" id="pw" name="password" required value=>#}
 
-        <label for="eT">Employee Type:</label>
-        <input type="text" id="et" name="e_type" required value="{{ emp.6 }}">
+            <label for="eT">Employee Type:</label>
+            <input type="text" id="et" name="e_type" required value="{{ emp.6 }}">
 
 
-        <input type="submit" value="Submit">
-    </form>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 
 </body>
 

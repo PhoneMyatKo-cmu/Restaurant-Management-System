@@ -112,11 +112,14 @@
     <header>
         <nav>
             <ul>
+                <li style="font-size: xx-large"><a>{{ restaurant_name }}</a></li>
                 <li><a href="{% url 'view_orders' %}">Order List</a></li>
                 <li><a href="{% url 'view_tables' %}">Table List</a></li>
                 <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
                 <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
                 <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+                <li><a href="{% url 'reports' %}">Menu Sales Reports</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
             </ul>
         </nav>
     </header>

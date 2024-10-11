@@ -134,6 +134,32 @@
             color: #fff;
             text-decoration: none;
         }
+         .messages {
+            width: 90%;
+            margin: 20px auto;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert.success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert.error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+        
     </style>
 </head>
 
@@ -141,11 +167,14 @@
     <header>
         <nav>
             <ul>
+                <li style="font-size: xx-large"><a>{{ restaurant_name }}</a></li>
                 <li><a href="{% url 'view_orders' %}">Order List</a></li>
                 <li><a href="{% url 'view_tables' %}">Table List</a></li>
                 <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
                 <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
                 <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+                <li><a href="{% url 'reports' %}">Menu Sales Reports</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
             </ul>
         </nav>
     </header>
@@ -154,9 +183,9 @@
 
     <div class="header-container">
         <div class="search-form">
-            <form action="#" method="get">
+            <form  method="get">
                 {% csrf_token %}
-                <input type="text" name="first_name" placeholder="Search by menu name">
+                <input type="text" name="menu_name" placeholder="Search by menu name">
                 <input type="submit" value="Search">
             </form>
         </div>
@@ -164,6 +193,15 @@
             <a href="{% url 'create_menu_item' %}" style="color: #fff; text-decoration: none;">Make New Menu Item</a>
         </button>
     </div>
+      {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <table>
         <thead>

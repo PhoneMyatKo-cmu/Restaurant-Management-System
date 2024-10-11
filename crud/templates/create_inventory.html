@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0px;
         }
 
         form {
@@ -46,6 +46,20 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+
+        }
+
+        h2 {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -58,31 +72,36 @@
                 <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
                 <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
                 <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+                <li><a href="{% url 'reports' %}">Menu Sales Reports</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
             </ul>
         </nav>
     </header>
+    <div class="container">
+        <h2>Add New Ingredient</h2>
+        <form action="{% url 'create_inventory' %}" method="POST">
+            <!-- Adjust the action URL as needed -->
+            {% csrf_token %}
+            <label for="ingredient_id">Ingredient Name:</label>
+            <input type="text" name="ingredient_name" id="">
 
-    <h2>Add New Ingredient</h2>
-    <form action="{% url 'create_inventory' %}" method="POST">
-        <!-- Adjust the action URL as needed -->
-        {% csrf_token %}
-        <label for="ingredient_id">Ingredient Name:</label>
-        <input type="text" name="ingredient_name" id="">
+            <label for="unit_price">Unit Price:</label>
+            <input type="text" id="price" name="unit_price" required>
 
-        <label for="unit_price">Unit Price:</label>
-        <input type="text" id="price" name="unit_price" required>
+            <label for="quantity"> Quantity:</label>
+            <input type="text" id="quantity" name="quantity" required>
 
-        <label for="quantity"> Quantity:</label>
-        <input type="text" id="quantity" name="quantity" required>
+            <label for="p_date"> Purchased At:</label>
+            <input type="date" id="p_date" name="p_date" required>
 
-        <label for="p_date"> Purchased At:</label>
-        <input type="date" id="p_date" name="p_date" required>
+            <label for="e_date"> Expired At:</label>
+            <input type="date" id="e_date" name="e_date" required>
+            <br><br>
 
-        <label for="e_date"> Expired At:</label>
-        <input type="date" id="e_date" name="e_date" required>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 
-        <input type="submit" value="Submit">
-    </form>
 
 </body>
 

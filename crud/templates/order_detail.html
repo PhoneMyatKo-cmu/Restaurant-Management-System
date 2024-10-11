@@ -10,9 +10,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 0;
             background-color: #f4f4f9;
+        }
+
+        header {
+            width: 100%;
         }
 
         .container {
@@ -79,11 +83,14 @@
     <header>
         <nav>
             <ul>
+                <li style="font-size: xx-large"><a>{{ restaurant_name }}</a></li>
                 <li><a href="{% url 'view_orders' %}">Order List</a></li>
                 <li><a href="{% url 'view_tables' %}">Table List</a></li>
                 <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
                 <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
                 <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+                <li><a href="{% url 'reports' %}">Menu Sales Reports</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
             </ul>
         </nav>
     </header>
@@ -100,14 +107,14 @@
                 <th>Table ID</th>
                 <td>{{ order.1}}</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <th>Server Name</th>
                 <td>{{ order.2 }}</td>
             </tr>
             <tr>
                 <th>Kitchen Staff Name</th>
                 <td>{{ order.3 }}</td>
-            </tr>
+            </tr> -->
             <tr>
                 <th>Order Type</th>
                 <td>{{ order.4 }}</td>

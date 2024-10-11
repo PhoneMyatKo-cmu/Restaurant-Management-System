@@ -10,7 +10,21 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+
+        }
+
+        h2 {
+            text-align: center;
         }
 
         form {
@@ -53,31 +67,37 @@
     <header>
         <nav>
             <ul>
+                <li style="font-size: xx-large"><a>{{ restaurant_name }}</a></li>
                 <li><a href="{% url 'view_orders' %}">Order List</a></li>
                 <li><a href="{% url 'view_tables' %}">Table List</a></li>
                 <li><a href="{% url 'view_menu_item' %}">Menu List</a></li>
                 <li><a href="{% url 'view_inventory' %}">Inventory List</a></li>
                 <li><a href="{% url 'view_employee' %}">Employee List</a></li>
+                <li><a href="{% url 'reports' %}">Menu Sales Reports</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
             </ul>
         </nav>
     </header>
 
-    <h2>Edit Table</h2>
-    <form action="{% url 'edit_table' table.0 %}" method="POST">
-        <!-- Adjust the action URL as needed -->
-        {% csrf_token %}
-        <label for="table_id">Table ID:</label>
-        <input type="text" id="table_id" name="table_id" required disabled value="{{ table.0 }}">
+    <div class="container">
+        <h2>Edit Table</h2>
+        <form action="{% url 'edit_table' table.0 %}" method="POST">
+            <!-- Adjust the action URL as needed -->
+            {% csrf_token %}
+            <label for="table_id">Table ID:</label>
+            <input type="text" id="table_id" name="table_id" required disabled value="{{ table.0 }}">
 
-        <label for="table_size">Table Size:</label>
-        <input type="text" id="table_size" name="table_size" required value="{{ table.1 }}">
+            <label for="table_size">Table Size:</label>
+            <input type="text" id="table_size" name="table_size" required value="{{ table.1 }}">
 
-        <label for="table_status">Table Status:</label>
-        <input type="text" id="table_status" name="table_status" required value="{{ table.2 }}"
-            placeholder="0 for available / 1 for occupied..">
+            <label for="table_status">Table Status:</label>
+            <input type="text" id="table_status" name="table_status" required value="{{ table.2 }}"
+                placeholder="0 for available / 1 for occupied..">
 
-        <input type="submit" value="Submit">
-    </form>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
 
 </body>
 

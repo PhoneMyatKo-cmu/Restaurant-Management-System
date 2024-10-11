@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns=[
     path('',login_view,name='login'),
+    path('logout/',logout_view,name='logout'),
     path('order_list',view_orders,name='view_orders'),
      path('table_list',view_table,name='view_tables'),
      path('create_table/',create_table,name='create_table'),
@@ -25,6 +26,8 @@ urlpatterns=[
      path('create_inventory/',create_inventory,name='create_inventory'),
      path('edit_inventory/<str:pk>/',edit_inventory,name='edit_inventory'),
      path('delete_inventory/<str:pk>/',delete_inventory,name='delete_inventory'),
+     path('reports/',sales_report,name='reports'),
+     path('inventory/',inventory_report,name='inventory'),
      
     
 ]
